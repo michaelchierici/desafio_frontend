@@ -1,28 +1,33 @@
-# React + TypeScript + Vite
+<h1 align="center">:file_cabinet: Desafio Front-end</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## :memo: Descrição
 
-Currently, two official plugins are available:
+Consumir e exibir dados da API do GitHUB
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## :books: Funcionalidades
 
-## Expanding the ESLint configuration
+- <b>Buscar usuário do GitHub</b>
+- <b>Visualizar os repositórios de um usuário</b>
+- <b>Alterar a order de visualização dos repositórios por ordem decrescente de estrelas</b>
+- <b>Visualizar o repositório detalhado do usuário</b>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## :wrench: Tecnologias
 
-- Configure the top-level `parserOptions` property like this:
+- React;
+- Styled Components;
+- Axios;
+- Vite;
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+## :rocket: Rodando o projeto
+
+Para instalar as dependências:
+
+```
+yarn install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-# desafio_frontend
+Para iniciar o projeto:
+
+```
+yarn dev
+```
