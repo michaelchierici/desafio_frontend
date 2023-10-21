@@ -10,13 +10,13 @@ const theme = {
     button: "#16db65",
 
     success: "#16db65",
-    error: "#C9235F",
+    error: "#A92039",
 
     hover: "#3F3D3D",
   },
   font: {
     size: {
-      sm: 1.5,
+      sm: 1.3,
       md: 2,
       lg: 3,
     },

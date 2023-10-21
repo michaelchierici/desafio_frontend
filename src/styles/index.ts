@@ -2,8 +2,8 @@ import { createGlobalStyle, css } from "styled-components";
 
 const sizes = {
   mobile: "320px",
-  laptop: "1280px",
-  desktop: "1920px",
+  laptop: "1024px",
+  desktop: "1480px",
 };
 
 export const mobile = (inner: any) => css`
@@ -36,7 +36,7 @@ export default createGlobalStyle`
 
 html, body {
   background-color: ${({ theme }) => theme.colors.background};
- 
+
 }
 
 button {
