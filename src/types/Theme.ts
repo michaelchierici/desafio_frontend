@@ -1,18 +1,18 @@
 export type Theme = typeof theme;
 const theme = {
   colors: {
-    background: "#1D1E18",
+    background: "#2B2B2B",
 
-    text_primary: "#476CFF",
+    text_primary: "#16db65",
     text_secondary: "#FFFFFF",
 
-    card: "",
-    button: "",
+    card: "#3F3D3D",
+    button: "#16db65",
 
     success: "#16db65",
     error: "#C9235F",
 
-    hover: "#C9235F",
+    hover: "#3F3D3D",
   },
   font: {
     size: {

@@ -23,7 +23,7 @@ Consumir e exibir dados da API do GitHUB
 Para instalar as dependências:
 
 ```
-yarn install
+yarn
 ```
 
 Para iniciar o projeto:
