@@ -1,15 +1,25 @@
-import { Container, Content, Header } from "./styles";
 import { ReactComponent as Star } from "../../assets/components/star.svg";
-import { RepositoryProps } from "../../types/Repository";
+import { Container, Content, Header } from "./styles";
+import { CardRepositoryProps } from "../../types/Card";
+import { LANGUAGES_ICONS } from "../../constants/languages";
+import DefaultIcon from "../../assets/icons/default.svg";
 
-export default function CardRepository(repository: RepositoryProps) {
+export default function CardRepository({
+  name,
+  language,
+  stars,
+  onClick,
+}: CardRepositoryProps) {
+  console.log(language);
   return (
-    <Container>
-      <Header>{repository.name}</Header>
+    <Container onClick={onClick}>
+      <Header>
+        <h3>{name}</h3>
+      </Header>
       <Content>
-        <div>{repository.language}</div>
+        <img src={LANGUAGES_ICONS[language] || DefaultIcon} />
         <label>
-          {repository.stargazers_count} <Star />
+          {stars} <Star />
         </label>
       </Content>
     </Container>

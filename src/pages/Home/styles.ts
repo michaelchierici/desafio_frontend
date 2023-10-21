@@ -164,9 +164,9 @@ export const ProfileFooter = styled.div`
 export const CardContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   padding: 20px 0;
-
+  flex-direction: column;
   .card-content {
     display: flex;
     align-items: center;
@@ -189,6 +189,15 @@ export const CardContainer = styled.div`
     flex-wrap: wrap;
     flex-direction: column;
   `)}
+`;
+
+export const CardContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 export const SearchContainer = styled.div<Props>`

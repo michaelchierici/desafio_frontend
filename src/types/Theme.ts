@@ -12,7 +12,7 @@ const theme = {
     success: "#16db65",
     error: "#A92039",
 
-    hover: "#3F3D3D",
+    hover: "#4E4849",
   },
   font: {
     size: {
