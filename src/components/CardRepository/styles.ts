@@ -14,6 +14,10 @@ export const Container = styled.button`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.hover};
+    h3 {
+      color: ${({ theme }) => theme.colors.text_primary};
+      opacity: 1;
+    }
   }
   transition: all 0.2s ease-in;
 
@@ -43,9 +47,10 @@ export const Header = styled.header`
   padding: 8px;
   h3 {
     color: ${({ theme }) => theme.colors.text_secondary};
-    font-size: ${({ theme }) => theme.font.size.md};
-    font-weight: ${({ theme }) => theme.font.weight.regular};
+    font-size: ${({ theme }) => theme.font.size.sm}em;
+    font-weight: ${({ theme }) => theme.font.weight.bold};
     text-align: left;
+    opacity: 0.8;
   }
 `;
 

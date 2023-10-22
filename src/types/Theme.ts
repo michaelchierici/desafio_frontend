@@ -3,7 +3,7 @@ const theme = {
   colors: {
     background: "#2B2B2B",
 
-    text_primary: "#16db65",
+    text_primary: "#8599FF",
     text_secondary: "#FFFFFF",
 
     card: "#3F3D3D",

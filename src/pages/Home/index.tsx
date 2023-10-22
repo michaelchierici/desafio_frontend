@@ -1,21 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useTheme } from "styled-components";
 
-import UsePagination from "../../hooks/usePagination";
 import UserService from "../../api/services/User/UserService";
 
 import {
   Container,
   Content,
-  ProfileContent,
+  ProfileContainer,
   ProfileHeader,
   ProfileSection,
   ProfileFooter,
   SearchContainer,
   CardContainer,
   CardContent,
+  Footer,
 } from "./styles";
-import toast, { Toaster } from "react-hot-toast";
 
 import CardRepository from "../../components/CardRepository";
 import Loader from "../../components/Loader";
@@ -26,15 +26,17 @@ import { ReactComponent as Bio } from "../../assets/components/user.svg";
 import { ReactComponent as Search } from "../../assets/components/search.svg";
 import { ReactComponent as Arrow } from "../../assets/components/arrow.svg";
 import { ReactComponent as NotFound } from "../../assets/components/notFound.svg";
+import { ReactComponent as Prev } from "../../assets/components/prev.svg";
+import { ReactComponent as Next } from "../../assets/components/next.svg";
 
 import { UserProps } from "../../types/User";
 import { RepositoryProps } from "../../types/Repository";
 
 import delay from "../../utils/delay";
+import Spinner from "../../components/Spinner";
 
 export default function Home() {
   const theme = useTheme();
-  const { page, take, handleChangePage } = UsePagination();
 
   const [initialLoading, setInitialLoading] = useState(true);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -43,16 +45,24 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [user, setUser] = useState({} as UserProps);
   const [repositories, setRepositories] = useState([] as RepositoryProps[]);
+  const [page, setPage] = useState(1);
+  const [take, setTake] = useState<number | undefined>(6);
+  const [pageSize, setPageSize] = useState<"paginate" | "full">("paginate");
+
+  const repositoriesNotExists = Object.keys(repositories).length === 0;
+  const repositoriesEnded =
+    Object.keys(repositories).length === 0 ||
+    Object.keys(repositories).length < 6;
 
   const notify = (message: string) => toast(message);
 
   const handleSearchUser = useCallback(async () => {
-    setSearchLoading(true);
     if (!searchTerm) {
-      return notify("Digite o nome de um usuário sem espaços!");
+      return notify("Nome de usuário é obrigatório!");
     }
+    setSearchLoading(true);
     try {
-      const user = await UserService.findDetails(searchTerm);
+      const user = await UserService.findDetails(searchTerm.replace(/ /g, ""));
       setUser(user);
     } catch {
       notify(`Usuário ${searchTerm} não encontrado!`);
@@ -63,18 +73,38 @@ export default function Home() {
 
   const getUsersRepositories = useCallback(async () => {
     try {
-      const repos = await UserService.findRepositories(searchTerm, page, take);
+      const repos = await UserService.findRepositories(
+        searchTerm.replace(/ /g, ""),
+        page,
+        take
+      );
       setRepositories(repos);
     } catch {
       notify(`Usuário ${searchTerm} não possui repositórios!`);
     }
-  }, [user, searchTerm]);
+  }, [user, searchTerm, page, take]);
+
+  const repositoriesOrderByStars = useMemo(() => {
+    return repositories.sort((a, b) =>
+      orderBy
+        ? a.stargazers_count + b.stargazers_count
+        : b.stargazers_count - a.stargazers_count
+    );
+  }, [repositories, orderBy]);
+
+  useEffect(() => {
+    if (pageSize === "full") {
+      setTake(undefined);
+    } else {
+      setTake(6);
+    }
+  }, [pageSize]);
 
   useEffect(() => {
     if (Object.keys(user).length !== 0) {
       getUsersRepositories();
     }
-  }, [user]);
+  }, [user, page, take]);
 
   useEffect(() => {
     async function fakeLoading() {
@@ -88,6 +118,12 @@ export default function Home() {
     setOrderBy((prevState) => !prevState);
   }
 
+  function handleChangePageSize() {
+    setPageSize((prevState) =>
+      prevState === "paginate" ? (prevState = "full") : "paginate"
+    );
+  }
+
   function handleGoToRepositoryInfo(repository: RepositoryProps) {
     console.log(repository);
   }
@@ -96,7 +132,7 @@ export default function Home() {
     <Container>
       <Loader isLoading={initialLoading} />
       <Content>
-        <ProfileContent>
+        <ProfileContainer>
           <h1>{user.name}</h1>
           <ProfileHeader>
             <img
@@ -125,30 +161,68 @@ export default function Home() {
               <label>SEGUINDO</label> <span>{user.following || "--"}</span>
             </div>
           </ProfileFooter>
-        </ProfileContent>
+        </ProfileContainer>
 
         <CardContainer>
           <SearchContainer orderBy={orderBy}>
             <Input
-              placeholder="Procurar nome do usuário no GitHub..."
+              placeholder="Busque o nome do usuário no GitHub..."
               onChange={(event) => setSearchTerm(event.target.value)}
               value={searchTerm}
             />
-            <Search className="search-user" onClick={handleSearchUser} />
-            <Arrow className="orderby-star" onClick={handleChangeOrderBy} />
-          </SearchContainer>
-          <CardContent>
-            {Object.keys(repositories).length === 0 && <NotFound />}
-            {repositories.map((repository, index) => (
-              <CardRepository
-                key={index}
-                name={repository.name}
-                language={repository.language?.toLowerCase()}
-                stars={repository.stargazers_count}
-                onClick={() => handleGoToRepositoryInfo(repository)}
+            {searchLoading ? (
+              <Spinner size={30} color={theme.colors.text_primary} />
+            ) : (
+              <Search
+                className="search-user"
+                onClick={handleSearchUser}
+                fill={theme.colors.text_primary}
               />
-            ))}
+            )}
+            <Arrow
+              className="orderby-star"
+              onClick={handleChangeOrderBy}
+              fill={theme.colors.text_primary}
+            />
+          </SearchContainer>
+          <CardContent pageSize={pageSize}>
+            {repositoriesNotExists ? (
+              <NotFound />
+            ) : (
+              <>
+                {repositoriesOrderByStars.map((repository, index) => (
+                  <CardRepository
+                    key={index}
+                    name={repository.name}
+                    language={repository.language?.toLowerCase()}
+                    stars={repository.stargazers_count}
+                    onClick={() => handleGoToRepositoryInfo(repository)}
+                  />
+                ))}
+              </>
+            )}
           </CardContent>
+          {repositoriesNotExists ||
+            (pageSize === "paginate" && (
+              <Footer>
+                <Prev
+                  onClick={() =>
+                    page > 1 && setPage((prevState) => prevState - 1)
+                  }
+                />
+                {page}
+                <Next
+                  onClick={() =>
+                    !repositoriesEnded && setPage((prevState) => prevState + 1)
+                  }
+                />
+              </Footer>
+            ))}
+          {!repositoriesNotExists && (
+            <button className="btn-footer" onClick={handleChangePageSize}>
+              {pageSize === "paginate" ? `Ver todos` : "Ver paginado"}
+            </button>
+          )}
         </CardContainer>
       </Content>
 

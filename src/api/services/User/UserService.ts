@@ -7,7 +7,7 @@ class UserService {
     return userMapper(user.data);
   }
 
-  async findRepositories(name: string, page: number, take: number) {
+  async findRepositories(name: string, page: number, take: number | undefined) {
     const repositories = await api.get(
       `/users/${name}/repos?page=${page}&per_page=${take}`
     );

@@ -25,7 +25,7 @@ export const Input = styled.input`
   }
 
   &:focus {
-    border-color: ${({ theme }) => theme.colors.button};
+    border-color: ${({ theme }) => theme.colors.text_primary};
   }
   transition: all 0.2s ease-in;
   border: 1px solid #b1b1b1;

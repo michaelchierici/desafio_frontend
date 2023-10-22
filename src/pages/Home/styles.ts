@@ -3,6 +3,7 @@ import { desktop, laptop, mobile } from "../../styles";
 
 interface Props {
   orderBy: boolean;
+  pageSize: "full" | "paginate";
 }
 
 export const Container = styled.div`
@@ -16,6 +17,26 @@ export const Content = styled.div`
 
   display: flex;
   align-items: center;
+
+  .btn-footer {
+    display: flex;
+    align-items: flex-end;
+    border: none;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: white;
+    background-color: transparent;
+    color: ${({ theme }) => theme.colors.text_primary};
+    font-size: ${({ theme }) => theme.font.size.sm}em;
+    height: 50px;
+    padding: 10px;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.text_secondary};
+      border-bottom-color: ${({ theme }) => theme.colors.text_primary};
+    }
+    transition: all 0.2s ease-in;
+  }
 
   ${mobile(css`
     flex-direction: column;
@@ -33,7 +54,7 @@ export const Content = styled.div`
   `)}
 `;
 
-export const ProfileContent = styled.aside`
+export const ProfileContainer = styled.aside`
   width: 600px;
   display: flex;
   flex-direction: column;
@@ -167,13 +188,8 @@ export const CardContainer = styled.div`
   justify-content: center;
   padding: 20px 0;
   flex-direction: column;
-  .card-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+  padding: 0 10px;
+
   ${mobile(css`
     width: 100%;
     flex-direction: column;
@@ -186,21 +202,45 @@ export const CardContainer = styled.div`
   ${desktop(css`
     width: 60%;
     height: 80%;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow: hidden;
     flex-direction: column;
   `)}
 `;
 
-export const CardContent = styled.div`
+export const CardContent = styled.div<Partial<Props>>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
+  flex: 1;
+  flex-wrap: wrap;
+  overflow: hidden;
+
+  overflow-y: ${({ pageSize }) => pageSize === "full" && "scroll"};
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #fefefe;
+    border-radius: 10px;
+    width: 3px;
+    height: 3px;
+  }
   flex-direction: row;
   flex-wrap: wrap;
+  border: 1px solid black;
+  border-radius: 8px;
+  box-shadow: 0px 2px 12px 0px black;
+  padding: 10px 0;
+  margin: 5px 0;
 `;
 
-export const SearchContainer = styled.div<Props>`
+export const SearchContainer = styled.div<Partial<Props>>`
   height: 50px;
   display: flex;
   align-items: center;
@@ -233,4 +273,16 @@ export const SearchContainer = styled.div<Props>`
 
     cursor: pointer;
   }
+`;
+
+export const Footer = styled.div`
+  width: 100px;
+  height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  color: white;
+  font-size: ${({ theme }) => theme.font.size.sm}em;
 `;
