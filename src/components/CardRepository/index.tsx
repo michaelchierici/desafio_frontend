@@ -2,15 +2,8 @@ import { ReactComponent as Star } from "../../assets/components/star.svg";
 import { Container, Content, Header } from "./styles";
 import { CardRepositoryProps } from "../../types/Card";
 import { LANGUAGES_ICONS } from "../../constants/languages";
+import { LanguageProps } from "../../types/Languages";
 import DefaultIcon from "../../assets/icons/default.svg";
-
-interface LanguageProps {
-  javascript: string;
-  typescript: string;
-  css: string;
-  html: string;
-  vue: string;
-}
 
 export default function CardRepository({
   name,

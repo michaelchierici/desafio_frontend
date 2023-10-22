@@ -21,16 +21,18 @@ export const Content = styled.button<Partial<ButtonProps>>`
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${({ theme }) => theme.colors.button};
+  background-color: ${({ theme }) => theme.colors.card};
   border: none;
-  font-size: ${({ theme }) => theme.font.size.md}em;
+  font-size: ${({ theme }) => theme.font.size.sm}em;
   font-weight: ${({ theme }) => theme.font.weight.bold};
-  color: red;
+  color: ${({ theme }) => theme.colors.text_secondary};
+
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(0.98);
     background-color: ${({ theme }) => theme.colors.hover};
+    color: ${({ theme }) => theme.colors.text_primary};
   }
 
   &[disabled] {

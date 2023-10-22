@@ -18,6 +18,7 @@ export function userRepositoriesMapper(repo: RepositoryProps) {
     description: repo.description,
     language: repo.language,
     stargazers_count: repo.stargazers_count,
-    repo_url: repo.html_url,
+    html_url: repo.html_url,
+    full_name: repo.full_name,
   };
 }

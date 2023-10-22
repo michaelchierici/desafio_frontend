@@ -4,4 +4,5 @@ export interface RepositoryProps {
   language: string;
   stargazers_count: number;
   html_url: string;
+  full_name: string;
 }

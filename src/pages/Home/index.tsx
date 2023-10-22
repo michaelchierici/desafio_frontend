@@ -1,16 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
 import { useTheme } from "styled-components";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 import UserService from "../../api/services/User/UserService";
 
 import {
   Container,
   Content,
-  ProfileContainer,
-  ProfileHeader,
-  ProfileSection,
-  ProfileFooter,
   SearchContainer,
   CardContainer,
   CardContent,
@@ -21,8 +18,6 @@ import CardRepository from "../../components/CardRepository";
 import Loader from "../../components/Loader";
 import { Input } from "../../components/Input";
 
-import { ReactComponent as Mail } from "../../assets/components/mail.svg";
-import { ReactComponent as Bio } from "../../assets/components/user.svg";
 import { ReactComponent as Search } from "../../assets/components/search.svg";
 import { ReactComponent as Arrow } from "../../assets/components/arrow.svg";
 import { ReactComponent as NotFound } from "../../assets/components/notFound.svg";
@@ -34,9 +29,11 @@ import { RepositoryProps } from "../../types/Repository";
 
 import delay from "../../utils/delay";
 import Spinner from "../../components/Spinner";
+import Profile from "../../components/Profile";
 
 export default function Home() {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [initialLoading, setInitialLoading] = useState(true);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -125,43 +122,13 @@ export default function Home() {
   }
 
   function handleGoToRepositoryInfo(repository: RepositoryProps) {
-    console.log(repository);
+    navigate(`repo/${repository.full_name}`);
   }
-
   return (
     <Container>
       <Loader isLoading={initialLoading} />
       <Content>
-        <ProfileContainer>
-          <h1>{user.name}</h1>
-          <ProfileHeader>
-            <img
-              src={
-                user.avatar_url ||
-                "https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png"
-              }
-            />
-          </ProfileHeader>
-          <ProfileSection>
-            <div className="email-container">
-              <Mail />
-              <h2>{user.email || "E-mail não informado"}</h2>
-            </div>
-            <div className="bio-container">
-              <Bio />
-              <h2>{user.bio || "Sem descrição"}</h2>
-            </div>
-          </ProfileSection>
-          <ProfileFooter>
-            <div className="container-followers">
-              <label>SEGUIDORES</label>
-              <span>{user.followers || "--"}</span>
-            </div>
-            <div className="container-following">
-              <label>SEGUINDO</label> <span>{user.following || "--"}</span>
-            </div>
-          </ProfileFooter>
-        </ProfileContainer>
+        <Profile user={user} />
 
         <CardContainer>
           <SearchContainer orderBy={orderBy}>
