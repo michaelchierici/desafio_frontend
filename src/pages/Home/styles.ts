@@ -72,7 +72,7 @@ export const CardContainer = styled.div`
   `)}
 
   ${desktop(css`
-    width: 60%;
+    width: 59%;
     height: 80%;
     flex-wrap: nowrap;
     overflow: hidden;
