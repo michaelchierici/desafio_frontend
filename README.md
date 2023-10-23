@@ -2,11 +2,10 @@
 
 ## :memo: Descrição
 
-Consumir e exibir dados da API do GitHUB
+Consumir API do GitHUB e exibir dados do usuário encontrado.
 
-URL: [🌐 https://desafio-frontend-rose.vercel.app/](#-web-browsers-)
+<h2>Demo: <a href="https://desafio-frontend-rose.vercel.app/">https://desafio-frontend-rose.vercel.app/</a></h2>
 
-<h2>Demo:</h2>
 <div>
 <img src="https://i.ibb.co/S07LSyJ/Captura-de-tela-2023-10-22-221448.png" alt="screenshot" />
 </div>
