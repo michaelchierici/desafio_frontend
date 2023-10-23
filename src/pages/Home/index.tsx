@@ -47,9 +47,6 @@ export default function Home() {
   const [pageSize, setPageSize] = useState<"paginate" | "full">("paginate");
 
   const repositoriesNotExists = Object.keys(repositories).length === 0;
-  const repositoriesEnded =
-    Object.keys(repositories).length === 0 ||
-    Object.keys(repositories).length < 6;
 
   const notify = (message: string) => toast(message);
 
@@ -70,11 +67,16 @@ export default function Home() {
 
   const getUsersRepositories = useCallback(async () => {
     try {
-      const repos = await UserService.findRepositories(
+      const repos: RepositoryProps[] = await UserService.findRepositories(
         searchTerm.replace(/ /g, ""),
         page,
         take
       );
+
+      if (repos.length === 0) {
+        setPage(1);
+      }
+
       setRepositories(repos);
     } catch {
       notify(`Usuário ${searchTerm} não possui repositórios!`);
@@ -82,11 +84,14 @@ export default function Home() {
   }, [user, searchTerm, page, take]);
 
   const repositoriesOrderByStars = useMemo(() => {
-    return repositories.sort((a, b) =>
+    const copyArray = [...repositories];
+    const sorted = copyArray.sort((a, b) =>
       orderBy
-        ? a.stargazers_count + b.stargazers_count
+        ? a.stargazers_count - b.stargazers_count
         : b.stargazers_count - a.stargazers_count
     );
+
+    return sorted;
   }, [repositories, orderBy]);
 
   useEffect(() => {
@@ -105,7 +110,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fakeLoading() {
-      await delay(1000);
+      await delay(800);
       setInitialLoading(false);
     }
     fakeLoading();
@@ -116,6 +121,7 @@ export default function Home() {
   }
 
   function handleChangePageSize() {
+    setPage(1);
     setPageSize((prevState) =>
       prevState === "paginate" ? (prevState = "full") : "paginate"
     );
@@ -178,11 +184,7 @@ export default function Home() {
                   }
                 />
                 {page}
-                <Next
-                  onClick={() =>
-                    !repositoriesEnded && setPage((prevState) => prevState + 1)
-                  }
-                />
+                <Next onClick={() => setPage((prevState) => prevState + 1)} />
               </Footer>
             ))}
           {!repositoriesNotExists && (

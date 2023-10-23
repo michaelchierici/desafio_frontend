@@ -27,8 +27,6 @@ export default function Repository() {
 
   const notify = (message: string) => toast(message);
 
-  console.log(repository);
-
   const getRepository = useCallback(async () => {
     setIsLoading(true);
     try {
