@@ -30,7 +30,6 @@ export const Content = styled.button<Partial<ButtonProps>>`
   cursor: pointer;
 
   &:hover {
-    transform: scale(0.98);
     background-color: ${({ theme }) => theme.colors.hover};
     color: ${({ theme }) => theme.colors.text_primary};
   }
